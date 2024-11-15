@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cargo",
+			"command": "run",
+			"problemMatcher": [
+				"$rustc"
+			],
+			"env": {
+				"WGPU_BACKEND": "dx12",
+				"VK_LOADER_LAYERS_DISABLE": "*wegame*"
+			},
+			"label": "rust: cargo run"
+		},
+	]
+}

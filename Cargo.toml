@@ -1,0 +1,110 @@
+[package]
+name = "minecrust"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+log = { version = "0.4", features = [
+    "max_level_debug",
+    "release_max_level_warn",
+] }
+bevy = { version = "0.14.0", features = [
+    "jpeg",
+    "basis-universal",
+    "meshlet",
+    "meshlet_processor",
+] }
+bevy_screen_diagnostics = "0.6.0"
+bevy_vector_shapes = "0.8.0"
+rand = { git = "https://github.com/rust-random/rand", rev = "24b9cc3", features = [
+    "small_rng",
+    "simd_support",
+] }
+serde = { version = "1.0.204", features = ["derive"] }
+bevy_egui = { version = "0.30.0", default-features = false, features = [
+    "open_url",
+] }
+image = "0.25.4"
+bevy-inspector-egui = "0.27.0"
+ahash = { version = "0.8.11", features = ["compile-time-rng", "serde"] }
+block-mesh = "0.2.0"
+ndshape = "0.3.0"
+weak-table = "0.3.2"
+parking_lot = { version = "0.12.3", features = [
+    "arc_lock",
+    "hardware-lock-elision",
+] }
+bevy_asset_loader = "0.21.0"
+tracing = { version = "0.1.40", features = [
+    "max_level_debug",
+    "release_max_level_warn",
+] }
+bevy_flycam = "0.14.1"
+iyes_perf_ui = "0.3.0"
+basis-universal = "0.3.1"
+loom = "^0.7"
+rayon = "1.10.0"
+mlua = { git = "https://github.com/mlua-rs/mlua", rev = "05778fb", features = [
+    "vendored",
+    "luau-jit",
+    "luau-vector4",
+    "anyhow",
+    "send",
+    "error-send",
+    "async",
+    "serialize",
+    "macros",
+    "userdata-wrappers",
+] }
+num_cpus = "1.16.0"
+thiserror = "2.0.0"
+bincode = { version = "2.0.0-rc.3", features = ["serde"] }
+papaya = { version = "0.1.4", features = ["serde"] }
+hstr = { version = "0.2.12", features = ["serde"] }
+indexmap = "2.6.0"
+once_cell = "1.20.2"
+kanal = "0.1.0-pre8"
+noise = "0.9.0"
+arc-swap = { version = "1.7.1", features = ["serde"] }
+scc = { version = "2.2.4", features = ["serde"] }
+redb = "2.2.0"
+zstd = { version = "0.13.2", features = ["fat-lto", "wasm"] }
+anyhow = "1.0.93"
+bumpalo = { version = "3.16.0", features = ["allocator_api"] }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+rune = "0.13.4"
+rquickjs = "0.6.2"
+#v8 = "130.0.1"
+wasmtime = "26.0.0"
+
+[[bench]]
+name = "bench_script"
+harness = false
+
+[features]
+default = ["debug"]
+debug = ["dynamic_linking"]
+dynamic_linking = ["bevy/dynamic_linking"]
+trace_tracy = ["bevy/trace_tracy"]
+release = []
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.profiling]
+inherits = "dev"
+opt-level = 3
+
+[profile.web]
+inherits = "release"
+opt-level = "z"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
