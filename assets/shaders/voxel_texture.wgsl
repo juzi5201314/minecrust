@@ -28,6 +28,7 @@
 
 @group(2) @binding(114) var mat_array_texture: texture_2d_array<f32>;
 @group(2) @binding(115) var mat_array_texture_sampler: sampler;
+@group(2) @binding(116) var<uniform> lod_offset: f32;
 
 struct Vertex {
     @builtin(instance_index) instance_index: u32,
@@ -226,11 +227,16 @@ fn fragment(
     if flag {
         // mip level
         let texture_size = vec2<f32>(vec2(textureDimensions(mat_array_texture, 0).xy));
-        let mip_level = mip_level(in.uv, texture_size);
+        let base_lod = mip_level(in.uv, texture_size);
+        let lod = clamp(base_lod + lod_offset, 0.0, 4.0);
 
         // texture sampling
-        //pbr_input.material.base_color = textureSampleBias(mat_array_texture, mat_array_texture_sampler, in.uv, texture_index, -2.0);
-        pbr_input.material.base_color = textureSampleLevel(mat_array_texture, mat_array_texture_sampler, in.uv, texture_index, mip_level);
+        pbr_input.material.base_color = textureSampleLevel(
+            mat_array_texture, mat_array_texture_sampler, 
+            in.uv, 
+            texture_index, 
+            lod
+        );
     } else {
         pbr_input.material.base_color = pixel_texture_array(in.uv, texture_index);
     }

@@ -15,6 +15,9 @@ pub struct VoxelMaterial {
     #[texture(114, dimension = "2d_array")]
     #[sampler(115)]
     pub array_texture: Handle<Image>,
+
+    #[uniform(116)]
+    pub lod_offset: f32,
 }
 
 impl MaterialExtension for VoxelMaterial {
