@@ -83,6 +83,10 @@ wasmtime = "26.0.0"
 name = "bench_script"
 harness = false
 
+[[bench]]
+name = "bench_atom"
+harness = false
+
 [features]
 default = ["debug"]
 debug = ["dynamic_linking"]
@@ -92,7 +96,6 @@ release = []
 
 [profile.release]
 lto = true
-codegen-units = 1
 strip = true
 
 [profile.profiling]
