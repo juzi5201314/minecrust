@@ -32,6 +32,11 @@ fn bench_hstr(c: &mut Criterion) {
             let _ = black_box(foobar == foobar);
         })
     });
+    c.bench_function("hstr_atom::eq_str", |b| {
+        b.iter(|| {
+            let _ = black_box(foobar == "foobar");
+        })
+    });
 }
 
 fn bench_atom(c: &mut Criterion) {
@@ -59,6 +64,11 @@ fn bench_atom(c: &mut Criterion) {
     c.bench_function("atom2::eq", |b| {
         b.iter(|| {
             let _ = black_box(foobar == foobar);
+        })
+    });
+    c.bench_function("atom2::eq_str", |b| {
+        b.iter(|| {
+            let _ = black_box(foobar == "foobar");
         })
     });
 }
