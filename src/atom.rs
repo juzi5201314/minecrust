@@ -9,40 +9,13 @@ use scc::HashCache;
 
 pub type Atom = Atom2;
 
-/* /// == `hstr::Atom`, but impl `Borrow<str>`. hashmap::get need it.
-#[derive(Deref, Debug, Clone, Hash, PartialEq, Eq)]
-pub struct Atom(#[deref] pub hstr::Atom);
 
-impl Atom {
-    pub fn new(value: impl Into<hstr::Atom>) -> Self {
-        Atom(value.into())
-    }
-}
-
-impl Borrow<str> for Atom {
-    fn borrow(&self) -> &str {
-        &self
-    }
-}
-
-impl<'de> serde::Deserialize<'de> for Atom {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        hstr::Atom::deserialize(deserializer).map(Atom)
-    }
-}
-
-impl serde::Serialize for Atom {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        self.0.serialize(serializer)
-    }
-} */
-
+/// Features
+/// * immutable
+/// * fast hash
+/// * fast comparison
+/// * fast clone
+/// * lru cache
 #[derive(Clone)]
 pub struct Atom2(Arc<Cell>);
 
@@ -64,7 +37,7 @@ impl Atom2 {
 impl Eq for Atom2 {}
 impl PartialEq for Atom2 {
     fn eq(&self, other: &Self) -> bool {
-        Arc::ptr_eq(&self.0, &other.0)
+        self.0.hash == other.0.hash
     }
 }
 
