@@ -96,7 +96,7 @@ fn setup(
         },
         extension: VoxelMaterial {
             array_texture: voxel_texture.0.clone(),
-            lod_offset: -1.0,
+            lod_offset: -0.05,
         },
     })));
 }
